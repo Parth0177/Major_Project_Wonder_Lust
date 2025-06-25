@@ -21,7 +21,7 @@ app.get('/testListing', async(req,res)=>{
     let listing = new Listing({
     title: 'Beautiful Beach House',
     description: 'A lovely beach house with stunning views.',
-    images: '',
+    image: '',
     price: 5250,
     location: 'Malibu, CA',
     country: 'USA'
