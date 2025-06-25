@@ -30,7 +30,6 @@ app.get('/testListing', async(req,res)=>{
   await listing.save()
     .then(() => res.send('Listing created successfully'))
     .catch(err => res.status(500).send('Error creating listing: ' + err.message));
-    res.send('Succesfully tested');
 })
 
 app.listen(8080,()=>{
