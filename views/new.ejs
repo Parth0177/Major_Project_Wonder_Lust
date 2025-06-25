@@ -3,7 +3,115 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add New Lisitng | WanderLust</title>
+  <title>Add New Listing | WanderLust</title>
+  <style>
+    /* Base Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #43cea2, #185a9d); /* Wanderlust colors */
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px 20px;
+    }
+
+    form {
+      background-color: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #185a9d;
+      font-size: 28px;
+      letter-spacing: 1px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="url"],
+    input[type="number"],
+    textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: #43cea2;
+      box-shadow: 0 0 8px rgba(67, 206, 162, 0.4);
+      outline: none;
+      transform: scale(1.02);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background-color: #185a9d;
+      color: white;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #43cea2;
+      transform: scale(1.03);
+      box-shadow: 0 6px 16px rgba(67, 206, 162, 0.3);
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 600px) {
+      form {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 24px;
+      }
+    }
+  </style>
 </head>
 <body>
   <form action="/listings" method="POST">
@@ -13,13 +121,16 @@
     <input type="text" id="title" name="title" placeholder="Enter Title" required>
 
     <label for="description">Description:</label>
-    <textarea id="description" name="description"placeholder="Enter Description" required></textarea>
+    <textarea id="description" name="description" placeholder="Enter Description" required></textarea>
+
+    <label for="image">Image URL:</label>
+    <input type="url" id="image" name="image" placeholder="Enter Image URL" required>
 
     <label for="price">Price:</label>
     <input type="number" id="price" name="price" placeholder="Enter the price.." required>
 
     <label for="location">Location:</label>
-    <input type="text" id="location" name="location" placeholder="enter the loaction.." required>
+    <input type="text" id="location" name="location" placeholder="Enter the location.." required>
 
     <label for="country">Country:</label>
     <input type="text" id="country" name="country" placeholder="Enter the country.." required>
