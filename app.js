@@ -46,12 +46,22 @@ app.get('/listings',async(req,res)=>{
   res.render('Listings.ejs', {allListings});
 });
 
+//NEW ROUTE
+app.get('/listings/new',(req,res)=>{
+  res.render('new.ejs');
+});
+
 //SHOW ROUTE
 app.get('/listings/:id', async(req,res)=>{
   const {id}= req.params;
   const listing = await Listing.findById(id);
   res.render('show.ejs', {listing});
-})
+});
+
+
+
+
+
 
 app.listen(8080,()=>{
   console.log('Server is running on PORT 8080');
