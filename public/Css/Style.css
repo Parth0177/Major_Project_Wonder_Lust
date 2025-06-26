@@ -75,14 +75,13 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   justify-content: center;
-  padding: 2rem;
   margin-bottom: 4rem;
 }
 
 .card {
   background-color: #ffffff;
   border: none;
-  border-radius: 10px;
+  border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -361,21 +360,21 @@ ul li::before {
 }
 
 .edit-btn {
-  background: #00c6ff;
+  background: #00c6ff !important;
   color: white;
 }
 
 .edit-btn:hover {
-  background: #009be0;
+  background: #009be0 !important;
 }
 
 .delete-btn {
-  background: #ff4e4e;
+  background: #ff4e4e !important;
   color: white;
 }
 
 .delete-btn:hover {
-  background: #c82333;
+  background: #c82333 !important;
 }
 
 /* Responsive */
