@@ -124,7 +124,7 @@
   <textarea id="description" name="listing[description]" required><%= listing.description %></textarea>
 
   <label for="image">Image URL:</label>
-  <input type="text" id="image" name="listing[image][filename]" value="<%= listing.image.filename %>" required>
+  <input type="text" id="image" name="listing[image][filename]" value="<%= listing.image.url %>" required>
 
   <label for="price">Price:</label>
   <input type="number" id="price" name="listing[price]" value="<%= listing.price %>" required>

@@ -1,16 +1,62 @@
 <% layout('/layouts/boilerplate') %>
 <body>
-  <h3>Listing Details:</h3>
-  <ul>
-    <li>Title: <%= listing.title %></li>
-    <li>Description: <%= listing.description %></li>
-    <li>Price: &#8377; <%= listing.price.toLocaleString('en-IN') %></li>
-    <li>Location: <%= listing.location %></li>
-    <li>Country: <%= listing.country %></li>
-  </ul>
-  <br>
-  <a href="/listings/<%= listing._id %>/edit">Edit this Listing</a>
-  <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE">
-    <button>Delete the listing</button>
-  </form>
+  <div class="show-container">
+    <!-- Listing Image with Lightbox -->
+    <div class="listing-image">
+      <img
+        src="<%= listing.image.url %>"
+        alt="Listing Image"
+        class="blur-up"
+        loading="lazy"
+        onclick="openLightbox(this.src)"
+      />
+    </div>
+
+    <!-- Listing Info -->
+    <h3>Listing Details:</h3>
+    <ul>
+      <li>Title: <%= listing.title %></li>
+      <li>Description: <%= listing.description %></li>
+      <li>Price: ₹ <%= listing.price.toLocaleString('en-IN') %></li>
+      <li>Location: <%= listing.location %></li>
+      <li>Country: <%= listing.country %></li>
+    </ul>
+
+    <!-- Action Buttons -->
+    <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn">Edit Listing</a>
+    <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display:inline;">
+      <button class="btn delete-btn">Delete Listing</button>
+    </form>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+    <img id="lightboxImage" src="" alt="Fullscreen View" />
+  </div>
+
+  <!-- Lightbox & Blur Script -->
+  <script>
+    function openLightbox(src) {
+      const modal = document.getElementById("lightboxModal");
+      const img = document.getElementById("lightboxImage");
+      img.src = src;
+      modal.style.display = "flex";
+    }
+
+    function closeLightbox() {
+      document.getElementById("lightboxModal").style.display = "none";
+    }
+
+    // Blur-up removal after lazy load
+    document.addEventListener("DOMContentLoaded", () => {
+      const img = document.querySelector('.blur-up');
+      if (img.complete) {
+        img.classList.remove('blur-up');
+      } else {
+        img.addEventListener('load', () => {
+          img.classList.remove('blur-up');
+        });
+      }
+    });
+  </script>
 </body>
