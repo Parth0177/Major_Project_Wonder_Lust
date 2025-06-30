@@ -70,7 +70,7 @@ app.post('/listings', async(req,res)=>{
     description,
     image: {
       filename: image,
-      url: 'https://images.unsplash.com/photo-1625505826533-5c80aca7d157?...',
+      url: image,
     },
     price,
     location,
