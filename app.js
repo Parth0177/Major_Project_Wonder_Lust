@@ -63,7 +63,8 @@ app.get('/listings/:id', async(req,res)=>{
 });
 
 //Create Route
-app.post('/listings', async(req,res)=>{
+app.post('/listings', async(req,res , next)=>{
+  try{
   const {title, description, image, price, location, country} = req.body;
   const listing = new Listing({
     title,
@@ -78,6 +79,9 @@ app.post('/listings', async(req,res)=>{
   });
   await listing.save();
   res.redirect('/listings');
+  }catch(err){
+  next(err)
+  }
 });
 
 //EDIT ROUTE
@@ -92,7 +96,7 @@ app.put('/listings/:id', async(req,res)=>{
   const {id}= req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing});
   res.redirect(`/listings/${id}`);
-})
+});
 
 //Delete route
 app.delete('/listings/:id',async(req,res)=>{
@@ -101,6 +105,10 @@ app.delete('/listings/:id',async(req,res)=>{
   res.redirect('/listings');
 });
 
+
+app.use((err , req, res , next)=>{
+  res.send('Something went wrong');
+})
 
 
 
