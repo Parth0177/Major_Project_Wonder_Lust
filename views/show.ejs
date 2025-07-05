@@ -32,7 +32,7 @@
   <!-- Reviews Section -->
   <div class="col-8 offset-3">
     Leave a Review:
-    <form action="">
+    <form action="/listings/<%= listing._id %>/reviews" method="POST">
       <div>
         <label for="rating">Rating</label>
         <input type="range" min="1" max= "5" id="rating" name="review[rating]">

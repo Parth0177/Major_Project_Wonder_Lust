@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 const Listing = require('./models/listing');
 const path = require('path');
 const methodOverride = require('method-override');
-const ejsMate = require('ejs-mate');
+const Review = require('./models/review');
+const ejsMate = require('ejs-mate'); // For using EJS as a template engine with Express
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -105,6 +106,16 @@ app.delete('/listings/:id',async(req,res)=>{
   res.redirect('/listings');
 });
 
+// Reviews // POST Route
+app.post('/listings/:id/reviews', async (req, res) => {
+  let listing = await Listing.findById(req.params.id);
+  let newReview = new Review(req.body.review);
+  await newReview.save(); // Save review to 'reviews' collection
+  listing.reviews.push(newReview); // Push only the ID
+  await listing.save(); // Save updated listing
+  console.log(newReview);
+  res.redirect(`/listings/${listing._id}`); // Optional: Redirect instead of send
+});
 
 
 
