@@ -4,8 +4,9 @@ const mongoose = require('mongoose');
 const Listing = require('./models/listing');
 const path = require('path');
 const methodOverride = require('method-override');
+const ejsMate = require('ejs-mate');
 const Review = require('./models/review');
-const ejsMate = require('ejs-mate'); // For using EJS as a template engine with Express
+const {reviewSchema} = require('./schema.js');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -43,6 +44,16 @@ app.get('/',(req,res)=>{
     .then(() => res.send('Listing created successfully'))
     .catch(err => res.status(500).send('Error creating listing: ' + err.message));
 })*/
+
+const validateReview = (req, res, next) => {
+  let {error} = reviewSchema.validate(req.body);
+  if(error){
+    let errMsg = error.details.map((el)=> el.message).join(',');
+    throw new Error(errMsg);
+  }else{
+    next();
+  }
+}
 
 
 // Index Route
@@ -107,16 +118,17 @@ app.delete('/listings/:id',async(req,res)=>{
 });
 
 // Reviews // POST Route
-app.post('/listings/:id/reviews', async (req, res) => {
-  let listing = await Listing.findById(req.params.id);
+app.post('/listings/:id/reviews', validateReview, async (req,res)=>{
+  let listing = await Listing.findById(req.params.id)
   let newReview = new Review(req.body.review);
-  await newReview.save(); // Save review to 'reviews' collection
-  listing.reviews.push(newReview); // Push only the ID
-  await listing.save(); // Save updated listing
-  console.log(newReview);
-  res.redirect(`/listings/${listing._id}`); // Optional: Redirect instead of send
-});
 
+  listing.reviews.push(newReview);
+  await newReview.save();
+  await listing.save();
+
+  console.log(newReview);
+  res.send('Review added successfully');
+})
 
 
 app.use((err , req, res , next)=>{
