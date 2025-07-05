@@ -43,6 +43,14 @@
       </div>
       <button>Submit</button>
     </form>
+    <br>
+    <h4>All Reviews </h4>
+    <% for(review of listing.reviews) { %>
+      <div class="review">
+        <p><strong>Rating:</strong> <%= review.rating %>⭐</p>
+        <p><strong>Comment:</strong> <%= review.comment %></p>
+      </div>
+    <% } %>
   </div>
 
   <!-- Lightbox Modal -->

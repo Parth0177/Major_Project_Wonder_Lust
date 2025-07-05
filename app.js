@@ -6,7 +6,7 @@ const path = require('path');
 const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Review = require('./models/review');
-const {reviewSchema} = require('./schema.js');
+
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -45,22 +45,17 @@ app.get('/',(req,res)=>{
     .catch(err => res.status(500).send('Error creating listing: ' + err.message));
 })*/
 
-const validateReview = (req, res, next) => {
-  let {error} = reviewSchema.validate(req.body);
-  if(error){
-    let errMsg = error.details.map((el)=> el.message).join(',');
-    throw new Error(errMsg);
-  }else{
-    next();
-  }
-}
-
 
 // Index Route
 app.get('/listings',async(req,res)=>{
   const allListings=  await Listing.find({});
   res.render('Listings.ejs', {allListings});
 });
+app.use((err , req, res , next)=>{
+  res.send('Something went wrong');
+})
+
+
 
 //NEW ROUTE
 app.get('/listings/new',(req,res)=>{
@@ -70,7 +65,7 @@ app.get('/listings/new',(req,res)=>{
 //SHOW ROUTE
 app.get('/listings/:id', async(req,res)=>{
   const {id}= req.params;
-  const listing = await Listing.findById(id);
+  const listing = await Listing.findById(id).populate('reviews');
   res.render('show.ejs', {listing});
 });
 
@@ -118,22 +113,16 @@ app.delete('/listings/:id',async(req,res)=>{
 });
 
 // Reviews // POST Route
-app.post('/listings/:id/reviews', validateReview, async (req,res)=>{
+app.post('/listings/:id/reviews', async (req,res)=>{
   let listing = await Listing.findById(req.params.id)
   let newReview = new Review(req.body.review);
 
   listing.reviews.push(newReview);
   await newReview.save();
   await listing.save();
-
-  console.log(newReview);
-  res.send('Review added successfully');
+  res.redirect(`/listings/${listing._id}`);
 })
 
-
-app.use((err , req, res , next)=>{
-  res.send('Something went wrong');
-})
 
 
 
