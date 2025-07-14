@@ -1,14 +1,20 @@
-app.get('/users', (req,res)=>{
+const express = require('express');
+const router = express.Router();
+
+
+router.get('/', (req,res)=>{
   res.send('Users Page it is');
 });
 
-app.get('/users/:id', (req,res)=>{
+router.get('/:id', (req,res)=>{
   res.send('Show Page of users');
 });
 
-app.post('/users', (req,res)=>{
+router.post('/', (req,res)=>{
   res.send('Create User');
 });
-app.delete('/users/:id', (req,res)=>{
+router.delete('/:id', (req,res)=>{
   res.send('delete User');
 });
+
+module.exports = router;
