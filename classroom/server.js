@@ -3,6 +3,13 @@ const app = express();
 const users= require('./routes/user.js')
 const posts= require('./routes/post.js')
 
+app.get('/getcookies', (req,res)=>{
+  res.cookie("greet", "Hello");
+  res.cookie("greet", "namaste")
+  res.send("Send some cookies...");
+});
+
+
 app.get('/', (req,res)=>{
   res.send('Hello World');
 });
