@@ -12,8 +12,13 @@ app.get('/getcookies', (req, res) => {
   res.send("Send some cookies...");
 });
 
+app.get('/greet', (req,res)=>{
+  let {name= "anonymous"} = req.cookies;
+  res.send(`hello guyz! myself ${name}`);
+})
+
 app.get('/', (req, res) => {
-  console.dir(req.cookies);
+  console.dir(req.cookies); 
   res.send('Hello World');
 });
 
