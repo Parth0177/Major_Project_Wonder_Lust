@@ -13,8 +13,8 @@ app.use(session({
 app.get('/register',(req,res)=>{
   let {name = "Gajodhar"} = req.query;
   req.session.name = name;
-  console.log(req.session.name)
-  res.send(`Welcome ${name} to the registration page`);
+  console.log(req.session.name);
+  res.redirect('/hello');
 });
 
 app.get('/hello', (req,res)=>{
