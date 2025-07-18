@@ -26,7 +26,7 @@ app.get('/getcookies', (req, res) => {
 app.get('/greet', (req,res)=>{
   let {name= "anonymous"} = req.cookies;
   res.send(`hello guyz! myself ${name}`);
-})
+});
 
 app.get('/', (req, res) => {
   console.dir(req.cookies); 
