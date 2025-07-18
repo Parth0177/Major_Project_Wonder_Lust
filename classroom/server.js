@@ -5,11 +5,18 @@ const posts = require('./routes/post.js');
 const session = require('express-session');
 
 app.use(session({
-  secret: "MySuperSecretString", resave: false , saveUninitialized: true,
+  secret: "MySuperSecretString",
+  resave: false , 
+  saveUninitialized: true,
 }));
 
-app.get('reqcount' , (req,res)=>{
-  res.send(`You Sent a Request x times`);
+app.get('/reqcount' , (req,res)=>{
+  if( req.session.count) {
+    req.session.count++;
+  }else{
+    req.session.count = 1;
+  }
+  res.send(`You Sent a Request ${req.session.count} times`);
 });
 
 
