@@ -5,8 +5,14 @@ const posts = require('./routes/post.js');
 const session = require('express-session');
 
 app.use(session({
-  secret
-}))
+  secret: "MySuperSecretString"
+}));
+
+
+
+/*app.get('/test', (req, res) => {
+  res.send('test route is workingggg'); 
+});*/
 
 
 
