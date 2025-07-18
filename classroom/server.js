@@ -10,7 +10,19 @@ app.use(session({
   saveUninitialized: true,
 }));
 
-app.get('/reqcount' , (req,res)=>{
+app.get('/register',(req,res)=>{
+  let {name = "Gajodhar"} = req.query;
+  req.session.name = name;
+  console.log(req.session.name)
+  res.send(`Welcome ${name} to the registration page`);
+});
+
+app.get('/hello', (req,res)=>{
+  res.send(`Hello ${req.session.name || "Guest"}!`);
+});
+
+
+/*app.get('/reqcount' , (req,res)=>{
   if( req.session.count) {
     req.session.count++;
   }else{
@@ -18,7 +30,7 @@ app.get('/reqcount' , (req,res)=>{
   }
   res.send(`You Sent a Request ${req.session.count} times`);
 });
-
+*/
 
 /*app.get('/test', (req, res) => {
   res.send('test route is workingggg'); 
