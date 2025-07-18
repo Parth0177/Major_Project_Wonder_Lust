@@ -5,9 +5,12 @@ const posts = require('./routes/post.js');
 const session = require('express-session');
 
 app.use(session({
-  secret: "MySuperSecretString"
+  secret: "MySuperSecretString", resave: false
 }));
 
+app.get('reqcount' , (req,res)=>{
+  res.send(`You Sent a Request x times`);
+});
 
 
 /*app.get('/test', (req, res) => {
