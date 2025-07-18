@@ -5,7 +5,7 @@ const posts = require('./routes/post.js');
 const session = require('express-session');
 
 app.use(session({
-  secret: "MySuperSecretString", resave: false
+  secret: "MySuperSecretString", resave: false , saveUninitialized: true,
 }));
 
 app.get('reqcount' , (req,res)=>{
