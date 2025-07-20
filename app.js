@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Review = require('./models/review');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 
 app.set('view engine', 'ejs');
@@ -28,6 +29,11 @@ const sessionOptions= {
 };
 
 app.use(session(sessionOptions));
+app.use(flash());
+app.use((req,res,next)=>{
+  res.locals.success = req.flash('success');
+  next();
+})
 
 
 const MONGO_URL= 'mongodb://127.0.0.1:27017/WonderLust';
@@ -99,6 +105,7 @@ app.post('/listings', async(req,res , next)=>{
     country
   });
   await listing.save();
+  req.flash('success', 'Listing created successfully!');
   res.redirect('/listings');
   }catch(err){
   next(err)
