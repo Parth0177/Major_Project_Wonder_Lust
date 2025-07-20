@@ -123,6 +123,7 @@ app.get('/listings/:id/edit', async(req,res)=>{
 app.put('/listings/:id', async(req,res)=>{
   const {id}= req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing});
+  req.flash('success', 'Listing updated successfully!');
   res.redirect(`/listings/${id}`);
 });
 
@@ -130,6 +131,7 @@ app.put('/listings/:id', async(req,res)=>{
 app.delete('/listings/:id',async(req,res)=>{
   const {id} = req.params;
   await Listing.findByIdAndDelete(id);
+  req.flash('success', 'Listing deleted successfully!');
   res.redirect('/listings');
 });
 
@@ -141,6 +143,7 @@ app.post('/listings/:id/reviews', async (req,res)=>{
   listing.reviews.push(newReview);
   await newReview.save();
   await listing.save();
+  req.flash('success', 'Review added successfully!');
   res.redirect(`/listings/${listing._id}`);
 });
 
@@ -151,7 +154,7 @@ app.delete('/listings/:id/reviews/:reviewId', async (req, res) => {
 
   await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
   await Review.findByIdAndDelete(reviewId);
-
+  req.flash('success', 'Review deleted successfully!');
   res.redirect(`/listings/${id}`);
 });
 
