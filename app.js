@@ -32,6 +32,7 @@ app.use(session(sessionOptions));
 app.use(flash());
 app.use((req,res,next)=>{
   res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
   next();
 })
 
@@ -86,6 +87,10 @@ app.get('/listings/new',(req,res)=>{
 app.get('/listings/:id', async(req,res)=>{
   const {id}= req.params;
   const listing = await Listing.findById(id).populate('reviews');
+  if(!listing){
+    req.flash('error', 'Listing not found');
+    res.redirect('/listings');
+  }
   res.render('show.ejs', {listing});
 });
 
@@ -116,6 +121,10 @@ app.post('/listings', async(req,res , next)=>{
 app.get('/listings/:id/edit', async(req,res)=>{
   let {id} = req.params;
   const listing = await Listing.findById(id);
+  if(!listing){
+    req.flash('error', 'Listing not found');
+    res.redirect('/listings');
+  }
     res.render('edit.ejs',{listing});
 });
 
