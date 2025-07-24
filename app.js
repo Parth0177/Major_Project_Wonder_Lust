@@ -93,6 +93,10 @@ app.get('/demouser',async(req,res)=>{
     .catch(err => res.status(500).send('Error creating listing: ' + err.message));
 })*/
 
+app.get('/signup', (req,res)=>{
+  res.render('signup.ejs');
+})
+
 
 // Index Route
 app.get('/listings',async(req,res)=>{
