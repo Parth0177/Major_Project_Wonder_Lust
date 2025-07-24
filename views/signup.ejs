@@ -1,23 +1,140 @@
 <% layout("/layouts/boilerplate") %>
 
-<div class="row mt-3">
-  <h1 class="col-6 offset-3">SignUp on WanderLust</h1>
-  <div class="col-6 offset-3">
-    <form action="/signup" method="POST" class="needs-validation" novalidate>
-      <div class="mb-3">
-        <label for="username" class="form-label">Username</label>
-        <input type="text" class="form-control" id="username" name="username" required/>
-        <div class="valid-feedback">Looks good</div>
+<style>
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f9f9f9;
+  }
+
+  .content-wrapper {
+    flex: 1;
+    padding-bottom: 100px; /* space for footer */
+  }
+
+  h1 {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: #333;
+  }
+
+  form {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+  }
+
+  form:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  }
+
+  label {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #444;
+  }
+
+  input.form-control {
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input.form-control:focus {
+    border-color: #4facfe;
+    box-shadow: 0 0 0 0.15rem rgba(79, 172, 254, 0.25);
+  }
+
+  button.btn-success {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    width: 100%;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  button.btn-success:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(to right, #00f2fe, #4facfe);
+  }
+
+  .valid-feedback {
+    color: #28a745;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 1.6rem;
+    }
+
+    form {
+      padding: 1.5rem;
+    }
+  }
+
+  footer {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    border-top: 2px solid rgba(255, 255, 255, 0.2);
+    font-weight: 500;
+  }
+</style>
+
+<div class="content-wrapper">
+  <div class="container">
+    <div class="row mt-5">
+      <div class="col-md-6 offset-md-3">
+        <h1>SignUp on WanderLust</h1>
+        <form action="/signup" method="POST" class="needs-validation" novalidate>
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              required
+            />
+            <div class="valid-feedback">Looks good</div>
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+
+          <button type="submit" class="btn btn-success">SignUp</button>
+        </form>
       </div>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-control" id="email" name="email" required/>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Email</label>
-        <input type="email" class="form-control" id="password" name="password" required/>
-      </div>
-      <button class="btn btn-success">SignUp</button>
-    </form>
+    </div>
   </div>
 </div>

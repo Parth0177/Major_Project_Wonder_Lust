@@ -67,7 +67,7 @@ app.get('/',(req,res)=>{
 });
 
 //UserRegistration Route
-app.get('/demouser',async(req,res)=>{
+/*app.get('/demouser',async(req,res)=>{
   let fakeUser= new User({
     email:'student@gmail.com',
     username:'Parth'
@@ -78,7 +78,7 @@ app.get('/demouser',async(req,res)=>{
 
 })
 
-/*app.get('/testListing', async(req,res)=>{  
+app.get('/testListing', async(req,res)=>{  
     let listing = new Listing({
     title: 'Beautiful Beach House',
     description: 'A lovely beach house with stunning views.',
@@ -95,7 +95,20 @@ app.get('/demouser',async(req,res)=>{
 
 app.get('/signup', (req,res)=>{
   res.render('signup.ejs');
-})
+});
+app.post('/signup',async(req,res)=>{
+  try{
+  let {email,username,password}= req.body;
+  const newUser = new User({email,username});
+  const registeredUser = await User.register(newUser,password);
+  req.flash('success', 'Welcome to WonderLust, ' + registeredUser.username + '!');
+  console.log(registeredUser);
+  res.redirect('/listings');
+  }catch(err){
+  req.flash('error', 'Registration failed: ' + err.message);
+  res.redirect('/signup');
+  }
+});
 
 
 // Index Route
