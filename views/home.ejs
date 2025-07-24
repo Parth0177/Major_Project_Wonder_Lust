@@ -1,0 +1,76 @@
+
+
+<style>
+  body {
+    background: linear-gradient(to right, #4facfe, #00f2fe);
+    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+  }
+
+  .hero-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 3rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(6px);
+  }
+
+  .hero-box h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .hero-box p {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn-custom {
+    background: white;
+    color: #00bcd4;
+    border: none;
+    padding: 0.6rem 1.5rem;
+    margin: 0 0.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-custom:hover {
+    background: #222;
+    color: white;
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 768px) {
+    .hero-box h1 {
+      font-size: 2rem;
+    }
+
+    .hero-box {
+      padding: 2rem 1.5rem;
+    }
+
+    .btn-custom {
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+  }
+</style>
+
+<div class="container">
+  <div class="hero-box">
+    <h1>Welcome to WanderLust</h1>
+    <p>Book and share unique stays around the world</p>
+    <a href="/login" class="btn btn-custom">Login</a>
+    <a href="/signup" class="btn btn-custom">SignUp</a>
+  </div>
+</div>

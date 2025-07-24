@@ -62,21 +62,18 @@ main().then((res)=>{
 }).catch((err)=> console.log(err));
 
 
-app.get('/',(req,res)=>{
-  res.send('Welcome');
-});
 
 //UserRegistration Route
 /*app.get('/demouser',async(req,res)=>{
   let fakeUser= new User({
     email:'student@gmail.com',
     username:'Parth'
-  });
-  
-  let registered= await User.register(fakeUser,'helloworld');
-  res.send(registered);
-
-})
+    });
+    
+    let registered= await User.register(fakeUser,'helloworld');
+    res.send(registered);
+    
+    })
 
 app.get('/testListing', async(req,res)=>{  
     let listing = new Listing({
@@ -86,9 +83,9 @@ app.get('/testListing', async(req,res)=>{
     price: 5250,
     location: 'Malibu, CA',
     country: 'USA'
-  });
-
-  await listing.save()
+    });
+    
+    await listing.save()
     .then(() => res.send('Listing created successfully'))
     .catch(err => res.status(500).send('Error creating listing: ' + err.message));
 })*/
@@ -98,16 +95,14 @@ app.get('/signup', (req,res)=>{
 });
 app.post('/signup',async(req,res)=>{
   try{
-  let {email,username,password}= req.body;
-  const newUser = new User({email,username});
-  const registeredUser = await User.register(newUser,password);
-  req.flash('success', 'Welcome to WonderLust, ' + registeredUser.username + '!');
-  console.log(registeredUser);
+    let {email,username,password}= req.body;
+    const newUser = new User({email,username});
+    const registeredUser = await User.register(newUser,password);
   res.redirect('/listings');
   }catch(err){
   req.flash('error', 'Registration failed: ' + err.message);
   res.redirect('/signup');
-  }
+}
 });
 
 app.get('/login',(req,res)=>{
@@ -119,6 +114,9 @@ app.post('/login',passport.authenticate("local",{failureRedirect:'/login' , fail
   res.redirect('/listings');
 })
 
+app.get('/',(req,res)=>{
+res.render('home.ejs');
+});
 
 // Index Route
 app.get('/listings',async(req,res)=>{
