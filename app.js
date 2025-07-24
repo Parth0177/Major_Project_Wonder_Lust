@@ -110,6 +110,15 @@ app.post('/signup',async(req,res)=>{
   }
 });
 
+app.get('/login',(req,res)=>{
+  res.render('login.ejs');
+});
+
+app.post('/login',passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,async(req,res,next)=>{
+  req.flash('success', 'Welcome back, ' + req.user.username + '!');
+  res.redirect('/listings');
+})
+
 
 // Index Route
 app.get('/listings',async(req,res)=>{
