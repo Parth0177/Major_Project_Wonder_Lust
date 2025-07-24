@@ -66,6 +66,18 @@ app.get('/',(req,res)=>{
   res.send('Welcome');
 });
 
+//UserRegistration Route
+app.get('/demouser',async(req,res)=>{
+  let fakeUser= new User({
+    email:'student@gmail.com',
+    username:'Parth'
+  });
+  
+  let registered= await User.register(fakeUser,'helloworld');
+  res.send(registered);
+
+})
+
 /*app.get('/testListing', async(req,res)=>{  
     let listing = new Listing({
     title: 'Beautiful Beach House',
