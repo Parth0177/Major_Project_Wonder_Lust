@@ -131,6 +131,10 @@ app.use((err , req, res , next)=>{
 
 //NEW ROUTE
 app.get('/listings/new',(req,res)=>{
+  if(!req.isAuthenticated()){
+    req.flash('error', 'You must be logged in to create a listing');
+    return res.redirect('/login');
+  }
   res.render('new.ejs');
 });
 
