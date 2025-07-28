@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
-
+const { isLoggedIn } = require('./middleware'); // Importing the isLoggedIn middleware
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -112,6 +112,16 @@ app.get('/login',(req,res)=>{
 app.post('/login',passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,async(req,res,next)=>{
   req.flash('success', 'Welcome back, ' + req.user.username + '!');
   res.redirect('/listings');
+});
+
+app.get('/logout', (req,res)=>{
+  req.logout((err)=>{
+    if(err){
+      return next(err);
+    }
+    req.flash('success', 'Logged out successfully!');
+    res.redirect('/login');
+  })
 })
 
 app.get('/',(req,res)=>{
@@ -130,11 +140,7 @@ app.use((err , req, res , next)=>{
 
 
 //NEW ROUTE
-app.get('/listings/new',(req,res)=>{
-  if(!req.isAuthenticated()){
-    req.flash('error', 'You must be logged in to create a listing');
-    return res.redirect('/login');
-  }
+app.get('/listings/new',isLoggedIn, (req,res)=>{
   res.render('new.ejs');
 });
 
@@ -150,7 +156,7 @@ app.get('/listings/:id', async(req,res)=>{
 });
 
 //Create Route
-app.post('/listings', async(req,res , next)=>{
+app.post('/listings', isLoggedIn, async(req,res , next)=>{
   try{
   const {title, description, image, price, location, country} = req.body;
   const listing = new Listing({
@@ -173,7 +179,7 @@ app.post('/listings', async(req,res , next)=>{
 });
 
 //EDIT ROUTE
-app.get('/listings/:id/edit', async(req,res)=>{
+app.get('/listings/:id/edit', isLoggedIn, async(req,res)=>{
   let {id} = req.params;
   const listing = await Listing.findById(id);
   if(!listing){
@@ -184,7 +190,7 @@ app.get('/listings/:id/edit', async(req,res)=>{
 });
 
 //Update Route
-app.put('/listings/:id', async(req,res)=>{
+app.put('/listings/:id', isLoggedIn,  async(req,res)=>{
   const {id}= req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing});
   req.flash('success', 'Listing updated successfully!');
@@ -192,7 +198,7 @@ app.put('/listings/:id', async(req,res)=>{
 });
 
 //Delete route
-app.delete('/listings/:id',async(req,res)=>{
+app.delete('/listings/:id', isLoggedIn, async(req,res)=>{
   const {id} = req.params;
   await Listing.findByIdAndDelete(id);
   req.flash('success', 'Listing deleted successfully!');
