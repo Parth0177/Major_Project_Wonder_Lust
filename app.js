@@ -70,7 +70,14 @@ app.post('/signup',async(req,res)=>{
     let {email,username,password}= req.body;
     const newUser = new User({email,username});
     const registeredUser = await User.register(newUser,password);
+    req.login(registeredUser, (err)=>{
+  if(err){
+      req.flash('error', 'Registration failed: ' + err.message);
+      return res.redirect('/signup');
+  }
+  req.flash('success', 'Welcome, ' + registeredUser.username + '!');
   res.redirect('/listings');
+  })
   }catch(err){
   req.flash('error', 'Registration failed: ' + err.message);
   res.redirect('/signup');
