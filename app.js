@@ -61,35 +61,6 @@ main().then((res)=>{
   console.log('Connected with the database');
 }).catch((err)=> console.log(err));
 
-
-
-//UserRegistration Route
-/*app.get('/demouser',async(req,res)=>{
-  let fakeUser= new User({
-    email:'student@gmail.com',
-    username:'Parth'
-    });
-    
-    let registered= await User.register(fakeUser,'helloworld');
-    res.send(registered);
-    
-    })
-
-app.get('/testListing', async(req,res)=>{  
-    let listing = new Listing({
-    title: 'Beautiful Beach House',
-    description: 'A lovely beach house with stunning views.',
-    image: '',
-    price: 5250,
-    location: 'Malibu, CA',
-    country: 'USA'
-    });
-    
-    await listing.save()
-    .then(() => res.send('Listing created successfully'))
-    .catch(err => res.status(500).send('Error creating listing: ' + err.message));
-})*/
-
 app.get('/signup', (req,res)=>{
   res.render('signup.ejs');
 });
