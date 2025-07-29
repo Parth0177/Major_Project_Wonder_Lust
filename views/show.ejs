@@ -13,9 +13,9 @@
     </div>
 
     <!-- Listing Info -->
+    <i>Posted By: <%= listing.owner.username %></i>
     <h3><%= listing.title %></h3>
     <ul>
-      <li>Title: <%= listing.title %></li>
       <li>Description: <%= listing.description %></li>
       <li>Price: ₹ <%= listing.price.toLocaleString('en-IN') %></li>
       <li>Location: <%= listing.location %></li>

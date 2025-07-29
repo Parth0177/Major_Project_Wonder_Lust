@@ -128,11 +128,12 @@ app.get('/listings/new',isLoggedIn, (req,res)=>{
 //SHOW ROUTE
 app.get('/listings/:id', async(req,res)=>{
   const {id}= req.params;
-  const listing = await Listing.findById(id).populate('reviews');
+  const listing = await Listing.findById(id).populate('reviews').populate('owner');
   if(!listing){
     req.flash('error', 'Listing not found');
     res.redirect('/listings');
   }
+  console.log(listing)
   res.render('show.ejs', {listing});
 });
 
@@ -149,7 +150,8 @@ app.post('/listings', isLoggedIn, async(req,res , next)=>{
     },
     price,
     location,
-    country
+    country,
+    owner: req.user._id // Set the owner to the currently logged-in user
   });
   await listing.save();
   req.flash('success', 'Listing created successfully!');
