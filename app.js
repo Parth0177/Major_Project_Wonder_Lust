@@ -11,7 +11,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
-const { isLoggedIn } = require('./middleware'); // Importing the isLoggedIn middleware
+const { isLoggedIn } = require('./middleware'); 
+const {saveRedirectUrl} = require('./middleware')
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -88,9 +89,10 @@ app.get('/login',(req,res)=>{
   res.render('login.ejs');
 });
 
-app.post('/login',passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,async(req,res,next)=>{
+app.post('/login', saveRedirectUrl , passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,async(req,res,next)=>{
   req.flash('success', 'Welcome back, ' + req.user.username + '!');
-  res.redirect('/listings');
+  let redirectUrl = res.locals.redirectUrl || '/listings';
+  res.redirect(redirectUrl);
 });
 
 app.get('/logout', (req,res)=>{
