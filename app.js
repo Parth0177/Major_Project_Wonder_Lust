@@ -12,7 +12,7 @@ const passport = require('passport');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
 const { isLoggedIn } = require('./middleware'); 
-const {saveRedirectUrl} = require('./middleware')
+const {saveRedirectUrl} = require('./middleware');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -132,8 +132,7 @@ app.get('/listings/:id', async(req,res)=>{
   if(!listing){
     req.flash('error', 'Listing not found');
     res.redirect('/listings');
-  }
-  console.log(listing)
+  } 
   res.render('show.ejs', {listing});
 });
 
