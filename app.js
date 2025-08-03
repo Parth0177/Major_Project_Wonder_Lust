@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
-const { isLoggedIn, isOwner } = require('./middleware'); 
+const { isLoggedIn, isOwner, isAuthor } = require('./middleware'); 
 const {saveRedirectUrl} = require('./middleware');
 
 app.set('view engine', 'ejs');
@@ -208,7 +208,7 @@ app.post('/listings/:id/reviews',isLoggedIn, async (req,res)=>{
 
 // DELETE REVIEW ROUTE
 
-app.delete('/listings/:id/reviews/:reviewId', async (req, res) => {
+app.delete('/listings/:id/reviews/:reviewId', isLoggedIn, isAuthor, async (req, res) => {
   const { id, reviewId } = req.params;
 
   await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
