@@ -23,20 +23,25 @@
     </ul>
 
     <!-- Action Buttons -->
-    
+    <% if(currentUser && currentUser._id.equals(listing.owner._id)) { %>
     <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn">Edit Listing</a>
     <form method="POST" action="/listings/<%= listing._id %>?_method=DELETE" style="display:inline;">
       <button class="btn delete-btn">Delete Listing</button>
     </form>
+    <% } %>
   </div>
 
   <!-- Reviews Section -->
+
+  
   <div class="col-8 offset-3">
+  <% if (currentUser) { %>
+    <!-- Show form only for logged-in users -->
     Leave a Review:
     <form action="/listings/<%= listing._id %>/reviews" method="POST">
       <div>
         <label for="rating">Rating</label>
-        <input type="range" min="1" max= "5" id="rating" name="review[rating]">
+        <input type="range" min="1" max="5" id="rating" name="review[rating]">
       </div>
       <div>
         <label for="comment">Comment</label>
@@ -45,48 +50,20 @@
       <button>Submit</button>
     </form>
     <br>
-    <h4>All Reviews </h4>
-    <% for(review of listing.reviews) { %>
-      <div class="review">
-        <h3>Parth Tiwari</h3>
-        <p><strong>Rating:</strong> <%= review.rating %>⭐</p>
-        <p><strong>Comment:</strong> <%= review.comment %></p>
-      </div>
-    <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-  <button class="btn btn-sm btn-dark">Delete Review</button>
-    </form>
+  <% } %>
 
+  <!-- ✅ Show all reviews to everyone -->
+  <h4>All Reviews</h4>
+  <% for (review of listing.reviews) { %>
+    <div class="review">
+      <h3><%= review.author.username %></h3>
+      <p><strong>Rating:</strong> <%= review.rating %>⭐</p>
+      <p><strong>Comment:</strong> <%= review.comment %></p>
+    </div>
+    <% if (currentUser) { %>
+      <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+        <button class="btn btn-sm btn-dark">Delete Review</button>
+      </form>
     <% } %>
-  </div>
-
-  <!-- Lightbox Modal -->
-  <div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
-    <img id="lightboxImage" src="" alt="Fullscreen View" />
-  </div>
-
-  <!-- Lightbox & Blur Script -->
-  <script>
-    function openLightbox(src) {
-      const modal = document.getElementById("lightboxModal");
-      const img = document.getElementById("lightboxImage");
-      img.src = src;
-      modal.style.display = "flex";
-    }
-
-    function closeLightbox() {
-      document.getElementById("lightboxModal").style.display = "none";
-    }
-
-    // Blur-up removal after lazy load
-    document.addEventListener("DOMContentLoaded", () => {
-      const img = document.querySelector('.blur-up');
-      if (img.complete) {
-        img.classList.remove('blur-up');
-      } else {
-        img.addEventListener('load', () => {
-          img.classList.remove('blur-up');
-        });
-      }
-    });
-  </script>
-</body>
+  <% } %>
+</div>

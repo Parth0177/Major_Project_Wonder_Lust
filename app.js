@@ -128,7 +128,13 @@ app.get('/listings/new',isLoggedIn, (req,res)=>{
 //SHOW ROUTE
 app.get('/listings/:id', async(req,res)=>{
   const {id}= req.params;
-  const listing = await Listing.findById(id).populate('reviews').populate('owner');
+  const listing = await Listing.findById(id).populate({
+  path: 'reviews',
+  populate:{
+    path:'author',
+  },
+  })
+  .populate('owner');
   if(!listing){
     req.flash('error', 'Listing not found');
     res.redirect('/listings');
@@ -188,9 +194,10 @@ app.delete('/listings/:id', isLoggedIn,isOwner, async(req,res)=>{
 });
 
 // Reviews // POST Route
-app.post('/listings/:id/reviews', async (req,res)=>{
+app.post('/listings/:id/reviews',isLoggedIn, async (req,res)=>{
   let listing = await Listing.findById(req.params.id)
   let newReview = new Review(req.body.review);
+  newReview.author = req.user._id; // Set the author to the currently logged-in user
 
   listing.reviews.push(newReview);
   await newReview.save();
