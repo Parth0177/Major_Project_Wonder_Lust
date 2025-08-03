@@ -11,7 +11,7 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./models/user');
 const LocalStrategy = require('passport-local');
-const { isLoggedIn } = require('./middleware'); 
+const { isLoggedIn, isOwner } = require('./middleware'); 
 const {saveRedirectUrl} = require('./middleware');
 
 app.set('view engine', 'ejs');
@@ -161,7 +161,7 @@ app.post('/listings', isLoggedIn, async(req,res , next)=>{
 });
 
 //EDIT ROUTE
-app.get('/listings/:id/edit', isLoggedIn, async(req,res)=>{
+app.get('/listings/:id/edit', isLoggedIn,isOwner, async(req,res)=>{
   let {id} = req.params;
   const listing = await Listing.findById(id);
   if(!listing){
@@ -172,7 +172,7 @@ app.get('/listings/:id/edit', isLoggedIn, async(req,res)=>{
 });
 
 //Update Route
-app.put('/listings/:id', isLoggedIn,  async(req,res)=>{
+app.put('/listings/:id', isLoggedIn, isOwner , async(req,res)=>{
   const {id}= req.params;
   await Listing.findByIdAndUpdate(id, {...req.body.listing});
   req.flash('success', 'Listing updated successfully!');
@@ -180,7 +180,7 @@ app.put('/listings/:id', isLoggedIn,  async(req,res)=>{
 });
 
 //Delete route
-app.delete('/listings/:id', isLoggedIn, async(req,res)=>{
+app.delete('/listings/:id', isLoggedIn,isOwner, async(req,res)=>{
   const {id} = req.params;
   await Listing.findByIdAndDelete(id);
   req.flash('success', 'Listing deleted successfully!');
