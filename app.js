@@ -13,6 +13,7 @@ const User = require('./models/user');
 const LocalStrategy = require('passport-local');
 const { isLoggedIn, isOwner, isAuthor } = require('./middleware'); 
 const {saveRedirectUrl} = require('./middleware');
+const listingController = require('./controller/listings');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -110,10 +111,10 @@ res.render('home.ejs');
 });
 
 // Index Route
-app.get('/listings',async(req,res)=>{
-  const allListings=  await Listing.find({});
-  res.render('Listings.ejs', {allListings});
-});
+app.get('/listings',(listingController.index));
+
+
+// Error handling middleware
 app.use((err , req, res , next)=>{
   res.send('Something went wrong');
 })
@@ -121,77 +122,22 @@ app.use((err , req, res , next)=>{
 
 
 //NEW ROUTE
-app.get('/listings/new',isLoggedIn, (req,res)=>{
-  res.render('new.ejs');
-});
+app.get('/listings/new',isLoggedIn, (listingController.new));
 
 //SHOW ROUTE
-app.get('/listings/:id', async(req,res)=>{
-  const {id}= req.params;
-  const listing = await Listing.findById(id).populate({
-  path: 'reviews',
-  populate:{
-    path:'author',
-  },
-  })
-  .populate('owner');
-  if(!listing){
-    req.flash('error', 'Listing not found');
-    res.redirect('/listings');
-  } 
-  res.render('show.ejs', {listing});
-});
+app.get('/listings/:id', (listingController.show));
 
 //Create Route
-app.post('/listings', isLoggedIn, async(req,res , next)=>{
-  try{
-  const {title, description, image, price, location, country} = req.body;
-  const listing = new Listing({
-    title,
-    description,
-    image: {
-      filename: image,
-      url: image,
-    },
-    price,
-    location,
-    country,
-    owner: req.user._id // Set the owner to the currently logged-in user
-  });
-  await listing.save();
-  req.flash('success', 'Listing created successfully!');
-  res.redirect('/listings');
-  }catch(err){
-  next(err)
-  }
-});
+app.post('/listings', isLoggedIn, (listingController.create));
 
 //EDIT ROUTE
-app.get('/listings/:id/edit', isLoggedIn,isOwner, async(req,res)=>{
-  let {id} = req.params;
-  const listing = await Listing.findById(id);
-  if(!listing){
-    req.flash('error', 'Listing not found');
-    res.redirect('/listings');
-  }
-    res.render('edit.ejs',{listing});
-});
+app.get('/listings/:id/edit', isLoggedIn,isOwner, (listingController.edit));
 
 //Update Route
-app.put('/listings/:id', isLoggedIn, isOwner , async(req,res)=>{
-  const {id}= req.params;
-  await Listing.findByIdAndUpdate(id, {...req.body.listing});
-  req.flash('success', 'Listing updated successfully!');
-  res.redirect(`/listings/${id}`);
-});
+app.put('/listings/:id', isLoggedIn, isOwner , (listingController.update));
 
 //Delete route
-app.delete('/listings/:id', isLoggedIn,isOwner, async(req,res)=>{
-  const {id} = req.params;
-  await Listing.findByIdAndDelete(id);
-  req.flash('success', 'Listing deleted successfully!');
-  res.redirect('/listings');
-});
+app.delete('/listings/:id', isLoggedIn,isOwner, (listingController.delete));
 
 // Reviews // POST Route
 app.post('/listings/:id/reviews',isLoggedIn, async (req,res)=>{
