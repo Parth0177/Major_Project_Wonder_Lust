@@ -15,6 +15,7 @@ const { isLoggedIn, isOwner, isAuthor } = require('./middleware');
 const {saveRedirectUrl} = require('./middleware');
 const listingController = require('./controller/listings');
 const reviewController = require('./controller/reviews');
+const userController = require('./controller/users');
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -65,47 +66,21 @@ main().then((res)=>{
   console.log('Connected with the database');
 }).catch((err)=> console.log(err));
 
-app.get('/signup', (req,res)=>{
-  res.render('signup.ejs');
-});
-app.post('/signup',async(req,res)=>{
-  try{
-    let {email,username,password}= req.body;
-    const newUser = new User({email,username});
-    const registeredUser = await User.register(newUser,password);
-    req.login(registeredUser, (err)=>{
-  if(err){
-      req.flash('error', 'Registration failed: ' + err.message);
-      return res.redirect('/signup');
-  }
-  req.flash('success', 'Welcome, ' + registeredUser.username + '!');
-  res.redirect('/listings');
-  })
-  }catch(err){
-  req.flash('error', 'Registration failed: ' + err.message);
-  res.redirect('/signup');
-}
-});
+//Render Signup form
+app.get('/signup',(userController.renderSignupForm));
 
-app.get('/login',(req,res)=>{
-  res.render('login.ejs');
-});
+// Sign Up Route 
+app.post('/signup',(userController.SignUp));
 
-app.post('/login', saveRedirectUrl , passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,async(req,res,next)=>{
-  req.flash('success', 'Welcome back, ' + req.user.username + '!');
-  let redirectUrl = res.locals.redirectUrl || '/listings';
-  res.redirect(redirectUrl);
-});
+// Render Login form
+app.get('/login',(userController.renderLoginForm));
 
-app.get('/logout', (req,res)=>{
-  req.logout((err)=>{
-    if(err){
-      return next(err);
-    }
-    req.flash('success', 'Logged out successfully!');
-    res.redirect('/login');
-  })
-})
+// Middleware to save redirect URL
+app.post('/login', saveRedirectUrl , passport.authenticate("local",{failureRedirect:'/login' , failureFlash:true}) ,(userController.Login));
+
+
+// Logout Route
+app.get('/logout', (userController.logout));
 
 // Error handling middleware
 app.use((err , req, res , next)=>{
