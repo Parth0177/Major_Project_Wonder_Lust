@@ -468,22 +468,48 @@ ul li::before {
   transform: translateY(-2px);
 }
 
-/* Individual Review Cards */
-.review {
+/* Review card styling */
+.review-card {
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 1rem;
   background-color: #f9f9f9;
-  border-left: 5px solid #4facfe;
-  padding: 15px 20px;
-  border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-  animation: fadeSlideIn 0.5s ease;
 }
 
-.review p {
-  margin: 0.3rem 0;
-  font-size: 16px;
-  color: #333;
+/* Star display for existing reviews */
+.review-card .stars span {
+  font-size: 20px;
+  color: #f5b301;
 }
+
+/* Star rating form styling */
+.starability-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.starability-slot input[type="radio"] {
+  display: none;
+}
+
+.starability-slot label {
+  font-size: 28px;
+  color: #ccc;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+
+
+.starability-slot legend {
+  font-weight: bold;
+  width: 100%;
+}
+
 
 /* Headings */
 .col-8.offset-3 h4 {
