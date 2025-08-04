@@ -1,6 +1,5 @@
-const Listing = require('../models/listing');
-const Review = require('./models/review');
-const User = require('./models/user');
+
+const User = require('../models/user');
 
 
 module.exports.renderSignupForm =  (req,res)=>{
