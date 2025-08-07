@@ -104,7 +104,12 @@ app.get('/listings/new',isLoggedIn, (listingController.new));
 app.get('/listings/:id', (listingController.show));
 
 //Create Route
-app.post('/listings', isLoggedIn, (listingController.create));
+//app.post('/listings', isLoggedIn, (listingController.create));
+app.post('/listings', (req,res,next)=>{
+  res.send(req.body);
+  console.log(req.body);
+  next();
+})
 
 //EDIT ROUTE
 app.get('/listings/:id/edit', isLoggedIn,isOwner, (listingController.edit));

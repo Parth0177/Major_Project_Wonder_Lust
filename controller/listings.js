@@ -25,7 +25,7 @@ module.exports.show = async(req,res)=>{
   res.render('show.ejs', {listing});
 };
 
-module.exports.create = async(req,res , next)=>{
+module.exports.create = async(req,res,next)=>{
   try{
   const {title, description, image, price, location, country} = req.body;
   const listing = new Listing({
