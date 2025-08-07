@@ -50,6 +50,15 @@
     input[type="text"],
     input[type="url"],
     input[type="number"],
+    input[type="file"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 2px solid #ddd;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: all 0.3s ease;
+    }
     textarea {
       width: 100%;
       padding: 12px;
@@ -114,7 +123,7 @@
   </style>
 </head>
 <body>
-  <form action="/listings" method="POST" novalidate class="needs-validation" >
+  <form action="/listings" method="POST" novalidate class="needs-validation" enctype="multipart/form-data" >
     <h2>Add New Listing</h2>
 
     <label for="title">Title:</label>
@@ -123,8 +132,8 @@
     <label for="description">Description:</label>
     <textarea id="description" name="description" placeholder="Enter Description" required></textarea>
 
-    <label for="image">Image URL:</label>
-    <input type="url" id="image" name="image" placeholder="Enter Image URL">
+    <label for="image">Upload Image</label>
+    <input type="file" id="image" name="image" placeholder="Enter Image URL">
 
     <label for="price">Price:</label>
     <input type="number" id="price" name="price" placeholder="Enter the price.." required>
