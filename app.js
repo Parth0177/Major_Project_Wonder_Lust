@@ -16,6 +16,8 @@ const {saveRedirectUrl} = require('./middleware');
 const listingController = require('./controller/listings');
 const reviewController = require('./controller/reviews');
 const userController = require('./controller/users');
+const multer = require('multer');
+const upload = multer({dest: 'uploads/'});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -105,11 +107,10 @@ app.get('/listings/:id', (listingController.show));
 
 //Create Route
 //app.post('/listings', isLoggedIn, (listingController.create));
-app.post('/listings', (req,res,next)=>{
-  res.send(req.body);
-  console.log(req.body);
+app.post('/listings', upload.single('image'), (req,res,next)=>{
+  res.send(req.file);
   next();
-})
+});
 
 //EDIT ROUTE
 app.get('/listings/:id/edit', isLoggedIn,isOwner, (listingController.edit));
