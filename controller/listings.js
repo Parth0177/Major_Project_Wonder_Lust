@@ -28,13 +28,12 @@ module.exports.show = async(req,res)=>{
 module.exports.create = async(req,res,next)=>{
   try{
   const {title, description, image, price, location, country} = req.body;
+  let url= req.file.path;
+  let filename = req.file.filename;
   const listing = new Listing({
     title,
     description,
-    image: {
-      filename: image,
-      url: image,
-    },
+    image: {url, filename},
     price,
     location,
     country,

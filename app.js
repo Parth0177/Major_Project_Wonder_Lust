@@ -1,7 +1,6 @@
 if(process.env.NODE_ENV !== 'production') {
 require('dotenv').config();
 }
-
 const express= require('express');
 const app= express();
 const mongoose = require('mongoose');
@@ -21,7 +20,8 @@ const listingController = require('./controller/listings');
 const reviewController = require('./controller/reviews');
 const userController = require('./controller/users');
 const multer = require('multer');
-const upload = multer({dest: 'uploads/'});
+const { cloudinary,storage } = require('./cloudConfig');
+const upload = multer({storage});
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -110,11 +110,7 @@ app.get('/listings/new',isLoggedIn, (listingController.new));
 app.get('/listings/:id', (listingController.show));
 
 //Create Route
-//app.post('/listings', isLoggedIn, (listingController.create));
-app.post('/listings', upload.single('image'), (req,res,next)=>{
-  res.send(req.file);
-  next();
-});
+app.post('/listings', isLoggedIn, upload.single('image'), (listingController.create));
 
 //EDIT ROUTE
 app.get('/listings/:id/edit', isLoggedIn,isOwner, (listingController.edit));
@@ -136,4 +132,4 @@ app.delete('/listings/:id/reviews/:reviewId', isLoggedIn, isAuthor, (reviewContr
 
 app.listen(8080,()=>{
   console.log('Server is running on PORT 8080');
-});
+});;
