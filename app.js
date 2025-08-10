@@ -110,13 +110,13 @@ app.get('/listings/new',isLoggedIn, (listingController.new));
 app.get('/listings/:id', (listingController.show));
 
 //Create Route
-app.post('/listings', isLoggedIn, upload.single('image'), (listingController.create));
+app.post('/listings', isLoggedIn, upload.single('listing[image]'), (listingController.create));
 
 //EDIT ROUTE
 app.get('/listings/:id/edit', isLoggedIn,isOwner, (listingController.edit));
 
 //Update Route
-app.put('/listings/:id', isLoggedIn, isOwner , (listingController.update));
+app.put('/listings/:id', isLoggedIn, isOwner , upload.single('listing[image]'), (listingController.update));
 
 //Delete route
 app.delete('/listings/:id', isLoggedIn,isOwner, (listingController.delete));
