@@ -85,7 +85,7 @@
         </div>
         <p><strong>Comment:</strong> <%= review.comment %></p>
 
-        <% if (currentUser) { %>
+        <% if (currentUser && review.author._id.equals(currentUser._id)) { %>
           <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
             <button class="btn btn-sm btn-dark">Delete Review</button>
           </form>
