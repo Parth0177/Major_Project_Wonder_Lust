@@ -61,11 +61,12 @@ app.use((req,res,next)=>{
 });
 
 
+//const MONGO_URL= 'mongodb://127.0.0.1:27017/WonderLust';
+const db_url = process.env.ATLAS_URL;
 
 
-const MONGO_URL= 'mongodb://127.0.0.1:27017/WonderLust';
 async function main(){
-  await mongoose.connect(MONGO_URL)
+  await mongoose.connect(db_url)
 }
 
 main().then((res)=>{

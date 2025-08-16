@@ -1,11 +1,24 @@
 <% layout('/layouts/boilerplate') %>
 
 <style>
+/* Sticky footer setup */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  flex: 1; /* pushes footer down */
+}
+
+/* Filters */
 #filters {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 40px; /* spacing between filters */
+  gap: 40px;
   margin-top: 20px;
 }
 
@@ -18,9 +31,9 @@
 }
 
 .filter i {
-  font-size: 24px; /* icon size */
+  font-size: 24px;
   margin-bottom: 5px;
-  color: #444; /* default icon color */
+  color: #444;
 }
 
 .filter p {
@@ -31,11 +44,23 @@
 
 .filter:hover {
   transform: translateY(-3px);
-  color: #e63946; /* hover text + icon color */
+  color: #e63946;
 }
 
 .filter:hover i {
   color: #e63946;
+}
+
+/* Footer styles */
+footer {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
+  color: white;
+  padding: 1.5rem 1rem;
+  border-top: 2px solid rgba(255, 255, 255, 0.2);
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  margin-top: auto; /* makes it sit at bottom */
 }
 </style>
 
@@ -83,4 +108,3 @@
       <% } %>
     </div>
   </div>
-</body>
