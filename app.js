@@ -42,7 +42,7 @@ async function main(){
 const store = MongoStore.create({
   mongoUrl: db_url,
   crypto:{
-    secret: 'mySuperSecretCode'
+    secret: process.env.SECRET // Use the same secret as in session options
   },
   touchAfter: 24 * 3600 // time in seconds after which session will be updated
 })
@@ -54,7 +54,7 @@ store.on("error",()=>{
 
 const sessionOptions= {
   store: store,
-  secret: 'mySuperSecretCode',
+  secret: process.env.SECRET,
   resave:false,
   saveUninitialized: true,
   cookie:{
