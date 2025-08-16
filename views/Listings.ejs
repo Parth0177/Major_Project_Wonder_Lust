@@ -1,9 +1,71 @@
 <% layout('/layouts/boilerplate') %>
 
+<style>
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 40px; /* spacing between filters */
+  margin-top: 20px;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.filter i {
+  font-size: 24px; /* icon size */
+  margin-bottom: 5px;
+  color: #444; /* default icon color */
+}
+
+.filter p {
+  margin: 0;
+  font-size: 14px;
+  text-transform: capitalize;
+}
+
+.filter:hover {
+  transform: translateY(-3px);
+  color: #e63946; /* hover text + icon color */
+}
+
+.filter:hover i {
+  color: #e63946;
+}
+</style>
+
 <body>
   <div class="container">
-    <h2 class="text-center my-4">ALL LISTINGS</h2>
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    <div id="filters">
+      <div class="filter">
+        <i class="fa-solid fa-fire"></i>
+        <p>trending</p>
+      </div>
+      <div class="filter">
+        <i class="fa-solid fa-bed"></i>
+        <p>rooms</p>
+      </div>
+      <div class="filter">
+        <i class="fa-solid fa-mountain"></i>
+        <p>adventure</p>
+      </div>
+      <div class="filter">
+        <i class="fa-solid fa-umbrella-beach"></i>
+        <p>beach</p>
+      </div>
+      <div class="filter">
+        <i class="fa-solid fa-city"></i>
+        <p>city</p>
+      </div>
+    </div>
+
+    <!-- Listings -->
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 mt-2">
       <% for (let listing of allListings) { %>
         <div class="col">
           <div class="card h-100">
