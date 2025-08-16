@@ -10,6 +10,7 @@ const methodOverride = require('method-override');
 const ejsMate = require('ejs-mate');
 const Review = require('./models/review');
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const flash = require('connect-flash');
 const passport = require('passport');
 const User = require('./models/user');
@@ -21,6 +22,7 @@ const reviewController = require('./controller/reviews');
 const userController = require('./controller/users');
 const multer = require('multer');
 const { cloudinary,storage } = require('./cloudConfig');
+const { log } = require('console');
 const upload = multer({storage});
 
 app.set('view engine', 'ejs');
@@ -30,7 +32,28 @@ app.use(express.urlencoded({ extended: true })); // For parsing application/x-ww
 app.use(methodOverride('_method')); // For supporting PUT and DELETE methods in forms
 app.engine('ejs', ejsMate);
 
+const db_url = process.env.ATLAS_URL;
+async function main(){
+  await mongoose.connect(db_url)
+}
+
+
+
+const store = MongoStore.create({
+  mongoUrl: db_url,
+  crypto:{
+    secret: 'mySuperSecretCode'
+  },
+  touchAfter: 24 * 3600 // time in seconds after which session will be updated
+})
+
+store.on("error",()=>{
+  console.log("Session store error",error);
+  
+})
+
 const sessionOptions= {
+  store: store,
   secret: 'mySuperSecretCode',
   resave:false,
   saveUninitialized: true,
@@ -40,6 +63,8 @@ const sessionOptions= {
     httpOnly: true, // Helps prevent XSS attacks
   }
 };
+
+
 
 app.use(session(sessionOptions));
 app.use(flash());
@@ -62,12 +87,9 @@ app.use((req,res,next)=>{
 
 
 //const MONGO_URL= 'mongodb://127.0.0.1:27017/WonderLust';
-const db_url = process.env.ATLAS_URL;
 
 
-async function main(){
-  await mongoose.connect(db_url)
-}
+
 
 main().then((res)=>{
   console.log('Connected with the database');
